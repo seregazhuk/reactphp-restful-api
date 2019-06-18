@@ -1,3 +1,7 @@
-PUT http://localhost:8000/products
+### Get all products
+GET http://localhost:8000/products
+
+### Create a new product
+POST http://localhost:8000/products
 
 ###
