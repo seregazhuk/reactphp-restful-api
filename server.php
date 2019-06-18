@@ -15,6 +15,9 @@ $loop = Factory::create();
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts());
 $routes->post('/products', new CreateProduct());
+$routes->get('/products/{id:\d+}', new \App\Products\Controller\GetProductById());
+$routes->put('/products/{id:\d+}', new \App\Products\Controller\UpdateProduct());
+$routes->delete('/products/{id:\d+}', new \App\Products\Controller\DeleteProduct());
 
 $server = new Server(new \App\Router($routes));
 

@@ -4,4 +4,13 @@ GET http://localhost:8000/products
 ### Create a new product
 POST http://localhost:8000/products
 
+### Get product by id
+GET http://localhost:8000/products/1
+
+### Update product by id
+PUT http://localhost:8000/products/1
+
+### Delete product by id
+DELETE http://localhost:8000/products/1
+
 ###
