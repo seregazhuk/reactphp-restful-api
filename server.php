@@ -1,7 +1,15 @@
 <?php
 
+use App\Orders\Controller\CreateOrder;
+use App\Orders\Controller\DeleteOrder;
+use App\Orders\Controller\GetAllOrders;
+use App\Orders\Controller\GetOrderById;
 use App\Products\Controller\CreateProduct;
+use App\Products\Controller\DeleteProduct;
 use App\Products\Controller\GetAllProducts;
+use App\Products\Controller\GetProductById;
+use App\Products\Controller\UpdateProduct;
+use App\Router;
 use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
@@ -15,11 +23,16 @@ $loop = Factory::create();
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts());
 $routes->post('/products', new CreateProduct());
-$routes->get('/products/{id:\d+}', new \App\Products\Controller\GetProductById());
-$routes->put('/products/{id:\d+}', new \App\Products\Controller\UpdateProduct());
-$routes->delete('/products/{id:\d+}', new \App\Products\Controller\DeleteProduct());
+$routes->get('/products/{id:\d+}', new GetProductById());
+$routes->put('/products/{id:\d+}', new UpdateProduct());
+$routes->delete('/products/{id:\d+}', new DeleteProduct());
 
-$server = new Server(new \App\Router($routes));
+$routes->get('/orders', new GetAllOrders());
+$routes->post('/orders', new CreateOrder());
+$routes->get('/orders/{id:\d+}', new GetOrderById());
+$routes->delete('/orders/{id:\d+}', new DeleteOrder());
+
+$server = new Server(new Router($routes));
 
 $socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
 $server->listen($socket);

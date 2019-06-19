@@ -13,4 +13,17 @@ PUT http://localhost:8000/products/1
 ### Delete product by id
 DELETE http://localhost:8000/products/1
 
+### Get all orders
+GET http://localhost:8000/orders
+
+### Create a new order
+POST http://localhost:8000/orders
+
+### Get order by id
+GET http://localhost:8000/orders/1
+
+
+### Delete order by id
+DELETE http://localhost:8000/orders/1
+
 ###
