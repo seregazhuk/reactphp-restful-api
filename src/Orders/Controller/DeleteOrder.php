@@ -2,17 +2,13 @@
 
 namespace App\Orders\Controller;
 
+use App\Core\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
 
 final class DeleteOrder
 {
     public function __invoke(ServerRequestInterface $request, string $id)
     {
-        return new Response(
-            200,
-            ['Content-Type' => 'application/json'],
-            json_encode(['message' => "DELETE request to /products/{$id}"])
-        );
+        return JsonResponse::ok(['message' => "DELETE request to /products/{$id}"]);
     }
 }

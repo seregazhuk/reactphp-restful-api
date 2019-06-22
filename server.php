@@ -1,5 +1,6 @@
 <?php
 
+use App\Core\Router;
 use App\Orders\Controller\CreateOrder;
 use App\Orders\Controller\DeleteOrder;
 use App\Orders\Controller\GetAllOrders;
@@ -9,7 +10,6 @@ use App\Products\Controller\DeleteProduct;
 use App\Products\Controller\GetAllProducts;
 use App\Products\Controller\GetProductById;
 use App\Products\Controller\UpdateProduct;
-use App\Router;
 use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
@@ -32,7 +32,7 @@ $routes->post('/orders', new CreateOrder());
 $routes->get('/orders/{id:\d+}', new GetOrderById());
 $routes->delete('/orders/{id:\d+}', new DeleteOrder());
 
-$server = new Server(new Router($routes));
+$server = new Server([new \App\Core\ErrorHandler(), new Router($routes)]);
 
 $socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
 $server->listen($socket);

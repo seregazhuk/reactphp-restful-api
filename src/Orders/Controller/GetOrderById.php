@@ -2,17 +2,13 @@
 
 namespace App\Orders\Controller;
 
+use App\Core\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
 
 final class GetOrderById
 {
     public function __invoke(ServerRequestInterface $request, string $id)
     {
-        return new Response(
-            200,
-            ['Content-Type' => 'application/json'],
-            json_encode(['message' => "GET request to /orders/{$id}"])
-        );
+        return JsonResponse::ok(['message' => "GET request to /orders/{$id}"]);
     }
 }
