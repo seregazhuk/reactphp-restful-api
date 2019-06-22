@@ -37,5 +37,9 @@ $server = new Server(new Router($routes));
 $socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
 $server->listen($socket);
 
+$server->on('error', function (Throwable $error) {
+    echo 'Error: ' . $error->getMessage() . PHP_EOL;
+});
+
 echo 'Listening on ' . str_replace('tcp', 'http', $socket->getAddress()) . PHP_EOL;
 $loop->run();
