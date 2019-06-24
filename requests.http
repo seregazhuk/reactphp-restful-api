@@ -3,6 +3,12 @@ GET http://localhost:8000/products
 
 ### Create a new product
 POST http://localhost:8000/products
+Content-Type: application/json
+
+{
+    "name": "MacBook Pro",
+    "price": "2800"
+}
 
 ### Get product by id
 GET http://localhost:8000/products/1
@@ -18,6 +24,12 @@ GET http://localhost:8000/orders
 
 ### Create a new order
 POST http://localhost:8000/orders
+Content-Type: application/json
+
+{
+    "productId": "2",
+    "quantity": "1"
+}
 
 ### Get order by id
 GET http://localhost:8000/orders/1

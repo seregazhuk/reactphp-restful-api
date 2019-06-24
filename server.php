@@ -1,5 +1,7 @@
 <?php
 
+use App\Core\ErrorHandler;
+use App\Core\JsonRequestDecoder;
 use App\Core\Router;
 use App\Orders\Controller\CreateOrder;
 use App\Orders\Controller\DeleteOrder;
@@ -32,7 +34,7 @@ $routes->post('/orders', new CreateOrder());
 $routes->get('/orders/{id:\d+}', new GetOrderById());
 $routes->delete('/orders/{id:\d+}', new DeleteOrder());
 
-$server = new Server([new \App\Core\ErrorHandler(), new Router($routes)]);
+$server = new Server([new ErrorHandler(), new JsonRequestDecoder(), new Router($routes)]);
 
 $socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
 $server->listen($socket);
