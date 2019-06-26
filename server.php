@@ -12,15 +12,29 @@ use App\Products\Controller\DeleteProduct;
 use App\Products\Controller\GetAllProducts;
 use App\Products\Controller\GetProductById;
 use App\Products\Controller\UpdateProduct;
+use Dotenv\Dotenv;
 use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
 use React\EventLoop\Factory;
 use React\Http\Server;
+use React\MySQL\QueryResult;
 
 require 'vendor/autoload.php';
 
 $loop = Factory::create();
+
+$env = Dotenv::create(__DIR__);
+$env->load();
+
+$factory = new \React\MySQL\Factory($loop);
+$uri = getenv('DB_LOGIN') . ':' . getenv('DB_PASS') . '@' . getenv('DB_HOST') . '/' . getenv('DB_NAME');
+$connection = $factory->createLazyConnection($uri);
+
+$connection->query('SHOW TABLES')
+    ->then(function (QueryResult $result) {
+        print_r($result->resultRows);
+    });
 
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts());
