@@ -52,6 +52,11 @@ final class Storage
             });
     }
 
+    public function delete(int $id): PromiseInterface
+    {
+        return $this->connection->query('DELETE FROM products WHERE id = ?', [$id]);
+    }
+
     private function mapProduct(array $row): Product
     {
         return new Product((int)$row['id'], $row['name'], (float)$row['price']);

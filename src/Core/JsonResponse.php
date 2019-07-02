@@ -27,4 +27,9 @@ final class JsonResponse extends Response
     {
         return new self(404);
     }
+
+    public static function noContent(): self
+    {
+        return new self(204);
+    }
 }
