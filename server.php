@@ -36,7 +36,7 @@ $products = new Products($connection);
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts());
 $routes->post('/products', new CreateProduct($products));
-$routes->get('/products/{id:\d+}', new GetProductById());
+$routes->get('/products/{id:\d+}', new GetProductById($products));
 $routes->put('/products/{id:\d+}', new UpdateProduct());
 $routes->delete('/products/{id:\d+}', new DeleteProduct());
 
