@@ -6,6 +6,7 @@ use App\Core\JsonResponse;
 use App\Products\Product;
 use App\Products\ProductNotFound;
 use App\Products\Storage;
+use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class GetProductById
@@ -21,11 +22,16 @@ final class GetProductById
     {
         return $this->storage
             ->getById((int)$id)
-            ->then(function (Product $product) {
-                return JsonResponse::ok(['product' => $product->toArray()]);
-            }, function (ProductNotFound $error) {
-                return JsonResponse::notFound();
-            });
-
+            ->then(
+                function (Product $product) {
+                    return JsonResponse::ok(['product' => $product->toArray()]);
+                },
+                function (ProductNotFound $error) {
+                    return JsonResponse::notFound();
+                },
+                function (Exception $error) {
+                    return JsonResponse::internalServerError($error->getMessage());
+                }
+            );
     }
 }
