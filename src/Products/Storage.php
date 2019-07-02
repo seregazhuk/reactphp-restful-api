@@ -8,9 +8,6 @@ use React\Promise\PromiseInterface;
 
 final class Storage
 {
-    /**
-     * @var ConnectionInterface
-     */
     private $connection;
 
     public function __construct(ConnectionInterface $connection)
@@ -39,9 +36,24 @@ final class Storage
                         throw new ProductNotFound();
                     }
 
-                    $row = $result->resultRows[0];
-                    return new Product((int)$row['id'], $row['name'], (float)$row['price']);
+                    return $this->mapProduct($result->resultRows[0]);
                 }
             );
+    }
+
+    public function getAll(): PromiseInterface
+    {
+        return $this->connection
+            ->query('SELECT id, name, price FROM products')
+            ->then(function (QueryResult $result) {
+                return array_map(function ($row) {
+                    return $this->mapProduct($row);
+                }, $result->resultRows);
+            });
+    }
+
+    private function mapProduct(array $row): Product
+    {
+        return new Product((int)$row['id'], $row['name'], (float)$row['price']);
     }
 }

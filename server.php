@@ -34,11 +34,11 @@ $connection = $factory->createLazyConnection($uri);
 $products = new Products($connection);
 
 $routes = new RouteCollector(new Std(), new GroupCountBased());
-$routes->get('/products', new GetAllProducts());
+$routes->get('/products', new GetAllProducts($products));
 $routes->post('/products', new CreateProduct($products));
 $routes->get('/products/{id:\d+}', new GetProductById($products));
-$routes->put('/products/{id:\d+}', new UpdateProduct());
-$routes->delete('/products/{id:\d+}', new DeleteProduct());
+$routes->put('/products/{id:\d+}', new UpdateProduct($products));
+$routes->delete('/products/{id:\d+}', new DeleteProduct($products));
 
 $routes->get('/orders', new GetAllOrders());
 $routes->post('/orders', new CreateOrder());
