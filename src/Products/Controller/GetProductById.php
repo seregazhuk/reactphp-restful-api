@@ -24,7 +24,7 @@ final class GetProductById
             ->getById((int)$id)
             ->then(
                 function (Product $product) {
-                    return JsonResponse::ok(['product' => $product->toArray()]);
+                    return JsonResponse::ok($product->toArray());
                 },
                 function (ProductNotFound $error) {
                     return JsonResponse::notFound();

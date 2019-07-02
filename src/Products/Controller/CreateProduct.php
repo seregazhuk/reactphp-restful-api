@@ -24,7 +24,7 @@ final class CreateProduct
 
         return $this->storage->create($name, (float)$price)
             ->then(function (Product $product) {
-                return JsonResponse::ok(['product' => $product->toArray()]);
+                return JsonResponse::ok($product->toArray());
             }, function (Exception $exception) {
                 return JsonResponse::internalServerError($exception->getMessage());
             });
