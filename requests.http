@@ -14,7 +14,13 @@ Content-Type: application/json
 GET http://localhost:8000/products/1
 
 ### Update product by id
-PUT http://localhost:8000/products/1
+PUT http://localhost:8000/products/9
+Content-Type: application/json
+
+{
+    "name": "MacBook Pro",
+    "price": "2900"
+}
 
 ### Delete product by id
 DELETE http://localhost:8000/products/1
