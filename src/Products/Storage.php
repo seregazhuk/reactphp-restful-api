@@ -54,7 +54,10 @@ final class Storage
 
     public function delete(int $id): PromiseInterface
     {
-        return $this->connection->query('DELETE FROM products WHERE id = ?', [$id]);
+        return $this->getById($id)
+            ->then(function (Product $product) {
+                $this->connection->query('DELETE FROM products WHERE id = ?', [$product->id]);
+            });
     }
 
     public function update(int $id, string $name, float $price): PromiseInterface
