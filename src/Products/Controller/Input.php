@@ -7,9 +7,6 @@ use Respect\Validation\Validator;
 
 final class Input
 {
-    /**
-     * @var ServerRequestInterface
-     */
     private $request;
 
     public function __construct(ServerRequestInterface $request)
