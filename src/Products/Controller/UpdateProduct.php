@@ -3,6 +3,7 @@
 namespace App\Products\Controller;
 
 use App\Core\JsonResponse;
+use App\Products\Controller\Output\Request;
 use App\Products\ProductNotFound;
 use App\Products\Storage;
 use Exception;
@@ -22,16 +23,17 @@ final class UpdateProduct
         $input = new Input($request);
         $input->validate();
 
-        return $this->storage->update((int)$id, $input->name(), $input->price())
-            ->then(
-                function () {
-                    return JsonResponse::noContent();
-                },
-                function (ProductNotFound $error) {
-                    return JsonResponse::notFound();
-                },
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
-                });
+        return $this->storage->update((int)$id, $input->name(), $input->price())->then(
+            function () use ($id) {
+                $response = ['request' => Request::detailedProduct((int)$id),];
+                return JsonResponse::ok($response);
+            }, function (ProductNotFound $error) {
+
+            return JsonResponse::notFound();
+            },
+            function (Exception $exception) {
+                return JsonResponse::internalServerError($exception->getMessage());
+            }
+        );
     }
 }
