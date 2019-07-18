@@ -16,13 +16,4 @@ final class Product
         $this->name = $name;
         $this->price = $price;
     }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'price' => $this->price,
-        ];
-    }
 }
