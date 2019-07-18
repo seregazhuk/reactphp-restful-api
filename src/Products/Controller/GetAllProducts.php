@@ -3,6 +3,8 @@
 namespace App\Products\Controller;
 
 use App\Core\JsonResponse;
+use App\Products\Controller\Output\Product as ProductResponse;
+use App\Products\Controller\Output\Request;
 use App\Products\Product;
 use App\Products\Storage;
 use Exception;
@@ -22,7 +24,11 @@ final class GetAllProducts
         return $this->storage->getAll()
             ->then(
                 function (array $products) {
-                    return JsonResponse::ok($this->mapProducts(...$products));
+                    $response = [
+                        'products' => $this->mapProducts(...$products),
+                        'count' => count($products)
+                    ];
+                    return JsonResponse::ok($response);
                 },
                 function (Exception $error) {
                     return JsonResponse::internalServerError($error->getMessage());
@@ -34,7 +40,7 @@ final class GetAllProducts
     {
         return array_map(
             function (Product $product) {
-                return $product->toArray();
+                return ProductResponse::fromEntity($product, Request::detailedProduct($product->id));
             }, $products
         );
     }
