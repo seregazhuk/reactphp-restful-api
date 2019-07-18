@@ -32,4 +32,9 @@ final class JsonResponse extends Response
     {
         return new self(204);
     }
+
+    public static function badRequest(string ...$errors): self
+    {
+        return new self(400, ['errors' => $errors]);
+    }
 }

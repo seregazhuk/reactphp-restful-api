@@ -19,10 +19,10 @@ final class UpdateProduct
 
     public function __invoke(ServerRequestInterface $request, string $id)
     {
-        $name = $request->getParsedBody()['name'];
-        $price = $request->getParsedBody()['price'];
+        $input = new Input($request);
+        $input->validate();
 
-        return $this->storage->update((int)$id, $name, (float)$price)
+        return $this->storage->update((int)$id, $input->name(), $input->price())
             ->then(
                 function () {
                     return JsonResponse::noContent();
