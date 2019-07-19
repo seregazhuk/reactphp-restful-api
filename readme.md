@@ -6,3 +6,4 @@ Code examples for [Creating a RESTful API with ReactPHP](https://www.youtube.com
 - [Refactoring to Controllers](https://youtu.be/xJbFS7NBF14)
 - [Dummy Endpoints](https://youtu.be/9LILEZqdtkA)
 - [Workflow Improvements](https://youtu.be/fl7gcLRhPTY)
+- [Parsing Request Body](https://youtu.be/lio47OF27EQ)
