@@ -71,17 +71,6 @@ final class Storage
             });
     }
 
-    public function update(int $id, string $name, float $price): PromiseInterface
-    {
-        return $this->getById($id)
-            ->then(function (Product $product) use ($name, $price) {
-                return $this->connection->query(
-                    'UPDATE products SET name = ?, price = ? WHERE id =?',
-                    [$name, $price, $product->id]
-                );
-            });
-    }
-
     private function mapProduct(array $row): Product
     {
         return new Product((int)$row['id'], $row['name'], (float)$row['price']);
