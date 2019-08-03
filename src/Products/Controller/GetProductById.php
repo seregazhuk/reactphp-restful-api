@@ -3,12 +3,34 @@
 namespace App\Products\Controller;
 
 use App\Core\JsonResponse;
+use App\Products\Product;
+use App\Products\ProductNotFound;
+use App\Products\Storage;
+use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class GetProductById
 {
+    private $storage;
+
+    public function __construct(Storage $storage)
+    {
+        $this->storage = $storage;
+    }
     public function __invoke(ServerRequestInterface $request, string $id)
     {
-        return JsonResponse::ok(['message' => "GET request to /products/{$id}"]);
+        return $this->storage
+            ->getById((int)$id)
+            ->then(
+                function (Product $product) {
+                    return JsonResponse::ok($product->toArray());
+                }
+            )
+            ->otherwise(function (ProductNotFound $error) {
+                return JsonResponse::notFound();
+            })
+            ->otherwise(function (Exception $error) {
+                return JsonResponse::internalServerError($error->getMessage());
+            });
     }
 }

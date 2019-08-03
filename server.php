@@ -12,13 +12,13 @@ use App\Products\Controller\DeleteProduct;
 use App\Products\Controller\GetAllProducts;
 use App\Products\Controller\GetProductById;
 use App\Products\Controller\UpdateProduct;
+use App\Products\Storage as Products;
 use Dotenv\Dotenv;
 use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
 use React\EventLoop\Factory;
 use React\Http\Server;
-use React\MySQL\QueryResult;
 
 require 'vendor/autoload.php';
 
@@ -31,17 +31,14 @@ $factory = new \React\MySQL\Factory($loop);
 $uri = getenv('DB_LOGIN') . ':' . getenv('DB_PASS') . '@' . getenv('DB_HOST') . '/' . getenv('DB_NAME');
 $connection = $factory->createLazyConnection($uri);
 
-$connection->query('SHOW TABLES')
-    ->then(function (QueryResult $result) {
-        print_r($result->resultRows);
-    });
+$products = new Products($connection);
 
 $routes = new RouteCollector(new Std(), new GroupCountBased());
-$routes->get('/products', new GetAllProducts());
-$routes->post('/products', new CreateProduct());
-$routes->get('/products/{id:\d+}', new GetProductById());
-$routes->put('/products/{id:\d+}', new UpdateProduct());
-$routes->delete('/products/{id:\d+}', new DeleteProduct());
+$routes->get('/products', new GetAllProducts($products));
+$routes->post('/products', new CreateProduct($products));
+$routes->get('/products/{id:\d+}', new GetProductById($products));
+$routes->put('/products/{id:\d+}', new UpdateProduct($products));
+$routes->delete('/products/{id:\d+}', new DeleteProduct($products));
 
 $routes->get('/orders', new GetAllOrders());
 $routes->post('/orders', new CreateOrder());

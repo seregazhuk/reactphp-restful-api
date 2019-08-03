@@ -22,4 +22,14 @@ final class JsonResponse extends Response
     {
         return new self(500, ['message' => $reason]);
     }
+
+    public static function notFound(): self
+    {
+        return new self(404);
+    }
+
+    public static function noContent(): self
+    {
+        return new self(204);
+    }
 }
