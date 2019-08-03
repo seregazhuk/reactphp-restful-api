@@ -8,4 +8,4 @@ Code examples for [Creating a RESTful API with ReactPHP](https://www.youtube.com
 - [Workflow Improvements](https://youtu.be/fl7gcLRhPTY)
 - [Parsing Request Body](https://youtu.be/lio47OF27EQ)
 - [Adding Database](https://youtu.be/yjsLaCTefzY)
-- [Managing Products](https://youtu.be/2skYF-thcbg)
+- [Managing Products](https://youtu.be/HsHIgkItiGI)
