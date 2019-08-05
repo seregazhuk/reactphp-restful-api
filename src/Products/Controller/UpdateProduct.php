@@ -23,11 +23,9 @@ final class UpdateProduct
         $input->validate();
 
         return $this->storage->update((int)$id, $input->name(), $input->price())
-            ->then(
-                function () {
-                    return JsonResponse::noContent();
-                }
-            )
+            ->then(function () {
+                return JsonResponse::noContent();
+            })
             ->otherwise(function (ProductNotFound $error) {
                 return JsonResponse::notFound();
             })
