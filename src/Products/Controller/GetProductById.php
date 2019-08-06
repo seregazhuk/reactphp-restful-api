@@ -3,6 +3,8 @@
 namespace App\Products\Controller;
 
 use App\Core\JsonResponse;
+use App\Products\Controller\Output\Product as Output;
+use App\Products\Controller\Output\Request;
 use App\Products\Product;
 use App\Products\ProductNotFound;
 use App\Products\Storage;
@@ -23,7 +25,13 @@ final class GetProductById
             ->getById((int)$id)
             ->then(
                 function (Product $product) {
-                    return JsonResponse::ok($product->toArray());
+                    $response = [
+                        'product' => Output::fromEntity(
+                            $product, Request::updateProduct($product->id)
+                        ),
+                        'request' => Request::listOfProducts()
+                    ];
+                    return JsonResponse::ok($response);
                 }
             )
             ->otherwise(function (ProductNotFound $error) {
