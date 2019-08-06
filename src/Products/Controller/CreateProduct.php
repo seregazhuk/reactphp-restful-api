@@ -19,10 +19,10 @@ final class CreateProduct
 
     public function __invoke(ServerRequestInterface $request)
     {
-        $name = $request->getParsedBody()['name'];
-        $price = $request->getParsedBody()['price'];
+        $input = new Input($request);
+        $input->validate();
 
-        return $this->storage->create($name, (float)$price)
+        return $this->storage->create($input->name(), $input->price())
             ->then(
                 function (Product $product) {
                     return JsonResponse::ok($product->toArray());
