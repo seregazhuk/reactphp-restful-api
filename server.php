@@ -3,10 +3,11 @@
 use App\Core\ErrorHandler;
 use App\Core\JsonRequestDecoder;
 use App\Core\Router;
-use App\Orders\Controller\CreateOrder;
+use App\Orders\Controller\CreateOrder\Controller;
 use App\Orders\Controller\DeleteOrder;
 use App\Orders\Controller\GetAllOrders;
 use App\Orders\Controller\GetOrderById;
+use App\Orders\Storage as Orders;
 use App\Products\Controller\CreateProduct;
 use App\Products\Controller\DeleteProduct;
 use App\Products\Controller\GetAllProducts;
@@ -32,6 +33,7 @@ $uri = getenv('DB_LOGIN') . ':' . getenv('DB_PASS') . '@' . getenv('DB_HOST') . 
 $connection = $factory->createLazyConnection($uri);
 
 $products = new Products($connection);
+$orders = new Orders($connection);
 
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts($products));
@@ -40,10 +42,10 @@ $routes->get('/products/{id:\d+}', new GetProductById($products));
 $routes->put('/products/{id:\d+}', new UpdateProduct($products));
 $routes->delete('/products/{id:\d+}', new DeleteProduct($products));
 
-$routes->get('/orders', new GetAllOrders());
-$routes->post('/orders', new CreateOrder());
-$routes->get('/orders/{id:\d+}', new GetOrderById());
-$routes->delete('/orders/{id:\d+}', new DeleteOrder());
+$routes->get('/orders', new GetAllOrders($orders));
+$routes->post('/orders', new Controller($orders, $products));
+$routes->get('/orders/{id:\d+}', new GetOrderById($orders));
+$routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
 
 $server = new Server([new ErrorHandler(), new JsonRequestDecoder(), new Router($routes)]);
 

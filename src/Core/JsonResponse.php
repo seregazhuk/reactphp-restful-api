@@ -37,4 +37,9 @@ final class JsonResponse extends Response
     {
         return new self(400, ['errors' => $errors]);
     }
+
+    public static function created($data): self
+    {
+        return new self(201, $data);
+    }
 }

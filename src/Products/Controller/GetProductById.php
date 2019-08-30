@@ -19,25 +19,26 @@ final class GetProductById
     {
         $this->storage = $storage;
     }
-
     public function __invoke(ServerRequestInterface $request, string $id)
     {
-        return $this->storage->getById((int)$id)->then(
+        return $this->storage
+            ->getById((int)$id)
+            ->then(
                 function (Product $product) {
                     $response = [
-                        'product ' => Output::fromEntity(
+                        'product' => Output::fromEntity(
                             $product, Request::updateProduct($product->id)
                         ),
                         'request' => Request::listOfProducts()
                     ];
                     return JsonResponse::ok($response);
-                },
-                function (ProductNotFound $error) {
-                    return JsonResponse::notFound();
-                },
-                function (Exception $error) {
-                    return JsonResponse::internalServerError($error->getMessage());
                 }
-            );
+            )
+            ->otherwise(function (ProductNotFound $error) {
+                return JsonResponse::notFound();
+            })
+            ->otherwise(function (Exception $error) {
+                return JsonResponse::internalServerError($error->getMessage());
+            });
     }
 }

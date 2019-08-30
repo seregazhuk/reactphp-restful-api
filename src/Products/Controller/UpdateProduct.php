@@ -23,17 +23,18 @@ final class UpdateProduct
         $input = new Input($request);
         $input->validate();
 
-        return $this->storage->update((int)$id, $input->name(), $input->price())->then(
-            function () use ($id) {
-                $response = ['request' => Request::detailedProduct((int)$id),];
+        return $this->storage->update((int)$id, $input->name(), $input->price())
+            ->then(function () use ($id) {
+                $response = [
+                    'request' => Request::detailedProduct((int)$id)
+                ];
                 return JsonResponse::ok($response);
-            }, function (ProductNotFound $error) {
-
-            return JsonResponse::notFound();
-            },
-            function (Exception $exception) {
-                return JsonResponse::internalServerError($exception->getMessage());
-            }
-        );
-    }
+            })
+            ->otherwise(function (ProductNotFound $error) {
+                return JsonResponse::notFound();
+            })
+            ->otherwise(function (Exception $error) {
+                return JsonResponse::internalServerError($error->getMessage());
+            });
+        }
 }

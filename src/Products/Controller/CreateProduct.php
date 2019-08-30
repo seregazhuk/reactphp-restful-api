@@ -24,17 +24,19 @@ final class CreateProduct
         $input = new Input($request);
         $input->validate();
 
-        return $this->storage->create($input->name(), $input->price())->then(
+        return $this->storage->create($input->name(), $input->price())
+            ->then(
                 function (Product $product) {
                     $response = [
                         'product' => Output::fromEntity(
                             $product, Request::detailedProduct($product->id)
-                        ),
+                        )
                     ];
-                    return JsonResponse::ok($response);
-                }, function (Exception $exception) {
-                return JsonResponse::internalServerError($exception->getMessage());
-            }
+                    return JsonResponse::created($response);
+                },
+                function (Exception $exception) {
+                    return JsonResponse::internalServerError($exception->getMessage());
+                }
             );
     }
 }
