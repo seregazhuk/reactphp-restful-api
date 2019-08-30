@@ -32,7 +32,7 @@ final class CreateProduct
                             $product, Request::detailedProduct($product->id)
                         )
                     ];
-                    return JsonResponse::ok($response);
+                    return JsonResponse::created($response);
                 },
                 function (Exception $exception) {
                     return JsonResponse::internalServerError($exception->getMessage());
