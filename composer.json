@@ -5,7 +5,8 @@
         "react/mysql": "^0.5.4",
         "vlucas/phpdotenv": "^3.4",
         "doctrine/migrations": "^2.1",
-        "respect/validation": "^1.1"
+        "respect/validation": "^1.1",
+        "react/filesystem": "^0.1.2"
     },
     "autoload": {
         "psr-4": {
