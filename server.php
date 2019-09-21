@@ -15,6 +15,7 @@ use App\Products\Controller\GetAllProducts;
 use App\Products\Controller\GetProductById;
 use App\Products\Controller\UpdateProduct;
 use App\Products\Storage as Products;
+use App\StaticFiles\Controller as StaticFilesController;
 use Dotenv\Dotenv;
 use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
@@ -46,6 +47,8 @@ $routes->post('/products', new CreateProduct($products, $uploader));
 $routes->get('/products/{id:\d+}', new GetProductById($products));
 $routes->put('/products/{id:\d+}', new UpdateProduct($products));
 $routes->delete('/products/{id:\d+}', new DeleteProduct($products));
+
+$routes->get('/uploads/{file:.*\.\w+}', new StaticFilesController($filesystem, __DIR__));
 
 $routes->get('/orders', new GetAllOrders($orders));
 $routes->post('/orders', new Controller($orders, $products));
