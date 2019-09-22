@@ -16,6 +16,7 @@ use App\Products\Controller\GetProductById;
 use App\Products\Controller\UpdateProduct;
 use App\Products\Storage as Products;
 use App\StaticFiles\Controller as StaticFilesController;
+use App\StaticFiles\Webroot;
 use Dotenv\Dotenv;
 use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
@@ -48,14 +49,18 @@ $routes->get('/products/{id:\d+}', new GetProductById($products));
 $routes->put('/products/{id:\d+}', new UpdateProduct($products));
 $routes->delete('/products/{id:\d+}', new DeleteProduct($products));
 
-$routes->get('/uploads/{file:.*\.\w+}', new StaticFilesController($filesystem, __DIR__));
+$routes->get('/uploads/{file:.*\.\w+}', new StaticFilesController(new Webroot($filesystem, __DIR__)));
 
 $routes->get('/orders', new GetAllOrders($orders));
 $routes->post('/orders', new Controller($orders, $products));
 $routes->get('/orders/{id:\d+}', new GetOrderById($orders));
 $routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
 
-$server = new Server([new ErrorHandler(), new JsonRequestDecoder(), new Router($routes)]);
+$server = new Server([
+    new ErrorHandler(),
+    new JsonRequestDecoder(),
+    new Router($routes)
+]);
 
 $socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
 $server->listen($socket);

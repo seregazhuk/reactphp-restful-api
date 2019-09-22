@@ -4,57 +4,32 @@ namespace App\StaticFiles;
 
 use App\Core\JsonResponse;
 use Exception;
-use Narrowspark\MimeType\MimeTypeFileExtensionGuesser;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Filesystem\FilesystemInterface;
-use React\Filesystem\Node\FileInterface;
 use React\Http\Response;
 use React\Promise\PromiseInterface;
 
 final class Controller
 {
-    private $filesystem;
+    private $webroot;
 
-    private $projectRoot;
-
-    public function __construct(FilesystemInterface $filesystem, string $projectRoot)
+    public function __construct(Webroot $webroot)
     {
-        $this->filesystem = $filesystem;
-        $this->projectRoot = $projectRoot;
+        $this->webroot = $webroot;
     }
 
     public function __invoke(ServerRequestInterface $request): PromiseInterface
     {
-        $path = $this->projectRoot . $request->getUri()->getPath();
-        $file = $this->filesystem->file($path);
-
-        return $file
-            ->exists()
+        return $this->webroot->file($request->getUri()->getPath())
             ->then(
-                function () use ($file) {
-                    return $this->returnResponseWithFile($file);
-                },
-                function () {
-                    return JsonResponse::notFound();
+                function (File $file) {
+                    return new Response(200, ['Content-Type' => $file->mimeType], $file->contents);
                 }
-            );
-    }
-
-    private function returnResponseWithFile(FileInterface $file): PromiseInterface
-    {
-        return $file
-            ->getContents()
-            ->then(
-                function ($contents) use ($file) {
-                    return new Response(
-                        200,
-                        ['Content-Type' =>  MimeTypeFileExtensionGuesser::guess($file->getPath())],
-                        $contents
-                    );
-                },
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
-                });
-
+            )
+            ->otherwise(function (FileNotFound $exception) {
+                return JsonResponse::notFound();
+            })
+            ->otherwise(function (Exception $exception) {
+                return JsonResponse::internalServerError($exception->getMessage());
+            });
     }
 }
