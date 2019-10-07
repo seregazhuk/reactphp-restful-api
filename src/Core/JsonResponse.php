@@ -42,4 +42,9 @@ final class JsonResponse extends Response
     {
         return new self(201, $data);
     }
+
+    public static function unauthorized(): self
+    {
+        return new self(401);
+    }
 }

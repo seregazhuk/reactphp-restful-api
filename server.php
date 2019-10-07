@@ -1,5 +1,6 @@
 <?php
 
+use App\Authentication\SignInController;
 use App\Authentication\SignUpController;
 use App\Authentication\Storage as Users;
 use App\Core\ErrorHandler;
@@ -60,6 +61,7 @@ $routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
 
 $users = new Users($connection);
 $routes->post('/auth/signup', new SignUpController($users));
+$routes->post('/auth/signin', new SignInController($users, getenv('JWT_KEY')));
 
 $server = new Server([
     new ErrorHandler(),

@@ -45,6 +45,11 @@ final class Input
 
     public function hashedPassword(): string
     {
-        return password_hash($this->request->getParsedBody()['password'], PASSWORD_BCRYPT);
+        return password_hash($this->password(), PASSWORD_BCRYPT);
+    }
+
+    public function password(): string
+    {
+        return $this->request->getParsedBody()['password'];
     }
 }
