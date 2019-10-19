@@ -37,7 +37,7 @@ final class SignInController
                             'userId' => $user->id,
                             'email' => $user->email
                         ];
-                        return JsonResponse::ok(['jwt' => JWT::encode($payload, $this->jwtKey)]);
+                        return JsonResponse::ok(['token' => JWT::encode($payload, $this->jwtKey)]);
                     }
 
                     return JsonResponse::unauthorized();
