@@ -12,7 +12,7 @@ final class UpdateProduct
         return new Response(
             200,
             ['Content-Type' => 'application/json'],
-            json_encode(['message' => "GET request to /products/{$id}"])
+            json_encode(['message' => "PUT request to /products/{$id}"])
         );
     }
 }
