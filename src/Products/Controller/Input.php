@@ -41,10 +41,10 @@ final class Input
 
     private function validateFields(): void
     {
-        $phoneValidator = Validator::key('name', Validator::allOf(Validator::notBlank(), Validator::stringType()))->setName('name');
+        $nameValidator = Validator::key('name', Validator::allOf(Validator::notBlank(), Validator::stringType()))->setName('name');
         $priceValidator = Validator::key('price', Validator::allOf(Validator::numeric(), Validator::positive(), Validator::notBlank()))->setName('price');
 
-        Validator::allOf($phoneValidator, $priceValidator)->assert($this->request->getParsedBody());
+        Validator::allOf($nameValidator, $priceValidator)->assert($this->request->getParsedBody());
     }
 
     private function validateUploadedFile(): void
