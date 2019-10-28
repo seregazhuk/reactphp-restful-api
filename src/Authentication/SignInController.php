@@ -35,7 +35,8 @@ final class SignInController
                     if (password_verify($input->password(), $user->password)) {
                         $payload = [
                             'userId' => $user->id,
-                            'email' => $user->email
+                            'email' => $user->email,
+                            'exp' => time() + 60*60,
                         ];
                         return JsonResponse::ok(['token' => JWT::encode($payload, $this->jwtKey)]);
                     }
