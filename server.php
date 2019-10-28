@@ -60,8 +60,9 @@ $routes->get('/orders/{id:\d+}', new GetOrderById($orders));
 $routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
 
 $users = new Users($connection);
+$authenticator = new \App\Authentication\Authenticator($users, getenv('JWT_KEY'));
 $routes->post('/auth/signup', new SignUpController($users));
-$routes->post('/auth/signin', new SignInController($users, getenv('JWT_KEY')));
+$routes->post('/auth/signin', new SignInController($authenticator));
 
 $server = new Server([
     new ErrorHandler(),

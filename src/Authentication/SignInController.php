@@ -4,24 +4,18 @@ namespace App\Authentication;
 
 use App\Core\JsonResponse;
 use Exception;
-use Firebase\JWT\JWT;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class SignInController
 {
     /**
-     * @var \App\Authentication\Storage
+     * @var Authenticator
      */
-    private $storage;
-    /**
-     * @var string
-     */
-    private $jwtKey;
+    private $authenticator;
 
-    public function __construct(Storage $storage, string $jwtKey)
+    public function __construct(Authenticator $authenticator)
     {
-        $this->storage = $storage;
-        $this->jwtKey = $jwtKey;
+        $this->authenticator = $authenticator;
     }
 
     public function __invoke(ServerRequestInterface $request)
@@ -29,18 +23,14 @@ final class SignInController
         $input = new Input($request);
         $input->validate();
 
-        return $this->storage->findByEmail($input->email())
+        return $this->authenticator->authenticate($input->email(), $input->password())
             ->then(
-                function (User $user) use ($input) {
-                    if (password_verify($input->password(), $user->password)) {
-                        $payload = [
-                            'userId' => $user->id,
-                            'email' => $user->email,
-                            'exp' => time() + 60*60,
-                        ];
-                        return JsonResponse::ok(['token' => JWT::encode($payload, $this->jwtKey)]);
-                    }
-
+                function ($jwt) {
+                    return JsonResponse::ok(['token' => $jwt]);
+                }
+            )
+            ->otherwise(
+                function (BadCredentials $exception) {
                     return JsonResponse::unauthorized();
                 }
             )
