@@ -2,44 +2,44 @@
 
 namespace App\Core;
 
-use React\Http\Response;
+use React\Http\Message\Response;
 
-final class JsonResponse extends Response
+final class JsonResponse
 {
-    public function __construct(int $statusCode, $data = null)
+    private static function response(int $statusCode, $data = null): Response
     {
-        $data = $data ? json_encode($data) : null;
+        $body = $data ? json_encode($data) : null;
 
-        parent::__construct($statusCode, ['Content-type' => 'application/json'], $data);
+        return new Response($statusCode, ['Content-Type' => 'application/json'], $body);
     }
 
-    public static function ok($data): self
+    public static function ok($data): Response
     {
-        return new self(200, $data);
+        return self::response(200, $data);
     }
 
-    public static function internalServerError(string $reason): self
+    public static function internalServerError(string $reason): Response
     {
-        return new self(500, ['message' => $reason]);
+        return self::response(500, ['message' => $reason]);
     }
 
-    public static function notFound(): self
+    public static function notFound(): Response
     {
-        return new self(404);
+        return self::response(404);
     }
 
-    public static function noContent(): self
+    public static function noContent(): Response
     {
-        return new self(204);
+        return self::response(204);
     }
 
-    public static function badRequest(string ...$errors): self
+    public static function badRequest(string ...$errors): Response
     {
-        return new self(400, ['errors' => $errors]);
+        return self::response(400, ['errors' => $errors]);
     }
 
-    public static function created($data): self
+    public static function created($data): Response
     {
-        return new self(201, $data);
+        return self::response(201, $data);
     }
 }

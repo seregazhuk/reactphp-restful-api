@@ -25,11 +25,14 @@ require 'vendor/autoload.php';
 
 $loop = Factory::create();
 
-$env = Dotenv::create(__DIR__);
+$env = Dotenv::createImmutable(__DIR__);
 $env->load();
 
 $factory = new \React\MySQL\Factory($loop);
-$uri = getenv('DB_LOGIN') . ':' . getenv('DB_PASS') . '@' . getenv('DB_HOST') . '/' . getenv('DB_NAME');
+$uri = getenv('DB_LOGIN')
+    . ':' . getenv('DB_PASS')
+    . '@' . getenv('DB_HOST')
+    . '/' . getenv('DB_NAME');
 $connection = $factory->createLazyConnection($uri);
 
 $products = new Products($connection);
@@ -47,14 +50,17 @@ $routes->post('/orders', new Controller($orders, $products));
 $routes->get('/orders/{id:\d+}', new GetOrderById($orders));
 $routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
 
-$server = new Server([new ErrorHandler(), new JsonRequestDecoder(), new Router($routes)]);
+$server = new Server($loop, new ErrorHandler(), new JsonRequestDecoder(), new Router($routes));
 
 $socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
 $server->listen($socket);
 
-$server->on('error', function (Throwable $error) {
-    echo 'Error: ' . $error->getMessage() . PHP_EOL;
-});
+$server->on(
+    'error',
+    function (Throwable $error) {
+        echo 'Error: ' . $error->getMessage() . PHP_EOL;
+    }
+);
 
 echo 'Listening on ' . str_replace('tcp', 'http', $socket->getAddress()) . PHP_EOL;
 $loop->run();

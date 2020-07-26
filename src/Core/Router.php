@@ -6,7 +6,7 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use LogicException;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
+use React\Http\Message\Response;
 
 final class Router
 {

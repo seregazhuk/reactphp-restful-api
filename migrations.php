@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'migrations_namespace' => 'App\Migrations',
-    'migrations_directory' => __DIR__ . '/Migrations',
+    'migrations_paths' => [
+        'App\Migrations' => __DIR__ . '/Migrations',
+    ],
 ];
