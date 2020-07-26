@@ -55,3 +55,7 @@ GET http://localhost:8000/orders/1
 DELETE http://localhost:8000/orders/1
 
 ###
+
+GET http://localhost:8000/uploads/1db953fac9d70979dc7dcb025be31d33.png
+
+###

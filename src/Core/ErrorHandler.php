@@ -14,6 +14,7 @@ final class ErrorHandler
         } catch (NestedValidationException $exception) {
             return JsonResponse::badRequest(...$exception->getMessages());
         } catch (\Throwable $error) {
+            var_dump($error);
             return JsonResponse::internalServerError($error->getMessage());
         }
     }
