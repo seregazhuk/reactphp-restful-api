@@ -7,7 +7,8 @@
         "doctrine/migrations": "^2.1",
         "respect/validation": "^1.1",
         "react/filesystem": "^0.1.2",
-        "narrowspark/mimetypes": "^1.4"
+        "narrowspark/mimetypes": "^1.4",
+        "firebase/php-jwt": "^5.0"
     },
     "autoload": {
         "psr-4": {

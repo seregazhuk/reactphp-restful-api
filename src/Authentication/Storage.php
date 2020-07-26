@@ -38,4 +38,24 @@ final class Storage
                 }
             );
     }
+
+    public function findByEmail(string $email): PromiseInterface
+    {
+        return $this->connection
+            ->query('SELECT id, email, password FROM users WHERE email = ?', [$email])
+            ->then(
+                function (QueryResult $result) {
+                    if (empty($result->resultRows)) {
+                        throw new UserNotFound();
+                    }
+
+                    $row = $result->resultRows[0];
+                    return new User(
+                        (int)$row['id'],
+                        $row['email'],
+                        $row['password']
+                    );
+                }
+            );
+    }
 }

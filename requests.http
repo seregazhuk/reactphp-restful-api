@@ -63,5 +63,14 @@ Content-Type: application/json
     "password" : "secret"
 }
 
+### Log in a user
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+    "email": "johndoe@example.com",
+    "password" : "secret"
+}
+
 ###
 

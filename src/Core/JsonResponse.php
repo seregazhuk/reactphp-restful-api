@@ -42,4 +42,9 @@ final class JsonResponse
     {
         return self::response(201, $data);
     }
+
+    public static function unauthorized(): self
+    {
+        return new self(401);
+    }
 }
