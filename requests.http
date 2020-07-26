@@ -3,15 +3,25 @@ GET http://localhost:8000/products
 
 ### Create a new product
 POST http://localhost:8000/products
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=RestApiBoundary
 
-{
-    "name": "MacBook Pro",
-    "price": "2800"
-}
+--RestApiBoundary
+Content-Disposition: form/data; name="name"
+
+MacBook Pro
+--RestApiBoundary
+Content-Disposition: form/data; name="price"
+
+2800
+--RestApiBoundary
+Content-Disposition: form/data; name="image"; filename="dummy-product.png"
+Content-Type: image/png
+
+< dummy-product.png
+--RestApiBoundary
 
 ### Get product by id
-GET http://localhost:8000/products/1
+GET http://localhost:8000/products/42
 
 ### Update product by id
 PUT http://localhost:8000/products/9
