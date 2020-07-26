@@ -37,6 +37,7 @@ DELETE http://localhost:8000/products/1
 
 ### Get all orders
 GET http://localhost:8000/orders
+Authorization: Bearer {{token}}
 
 ### Create a new order
 POST http://localhost:8000/orders
@@ -71,6 +72,8 @@ Content-Type: application/json
     "email": "johndoe@example.com",
     "password" : "secret"
 }
+
+> {% client.global.set("token", response.body.token); %}
 
 ###
 

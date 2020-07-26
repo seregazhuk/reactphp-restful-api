@@ -48,19 +48,20 @@ $uploader = new Uploader($filesystem, __DIR__);
 $products = new Products($connection);
 $orders = new Orders($connection);
 
+$guard = new \App\Authentication\Guard(getenv('JWT_KEY'));
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts($products));
-$routes->post('/products', new CreateProduct($products, $uploader));
+$routes->post('/products', $guard->protect(new CreateProduct($products, $uploader)));
 $routes->get('/products/{id:\d+}', new GetProductById($products));
-$routes->put('/products/{id:\d+}', new UpdateProduct($products));
-$routes->delete('/products/{id:\d+}', new DeleteProduct($products));
+$routes->put('/products/{id:\d+}', $guard->protect(new UpdateProduct($products)));
+$routes->delete('/products/{id:\d+}', $guard->protect(new DeleteProduct($products)));
 
 $routes->get('/uploads/{file:.*\.\w+}', new StaticFilesController(new Webroot($filesystem, __DIR__)));
 
-$routes->get('/orders', new GetAllOrders($orders));
-$routes->post('/orders', new Controller($orders, $products));
-$routes->get('/orders/{id:\d+}', new GetOrderById($orders));
-$routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
+$routes->get('/orders', $guard->protect(new GetAllOrders($orders)));
+$routes->post('/orders', $guard->protect(new Controller($orders, $products)));
+$routes->get('/orders/{id:\d+}', $guard->protect(new GetOrderById($orders)));
+$routes->delete('/orders/{id:\d+}', $guard->protect(new DeleteOrder($orders)));
 
 $users = new Users($connection);
 $authenticator = new \App\Authentication\Authenticator($users, getenv('JWT_KEY'));
