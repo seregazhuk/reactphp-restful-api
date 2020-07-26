@@ -54,8 +54,14 @@ GET http://localhost:8000/orders/1
 ### Delete order by id
 DELETE http://localhost:8000/orders/1
 
+### Create a new user
+POST http://localhost:8000/auth/signup
+Content-Type: application/json
+
+{
+    "email": "johndoe@example.com",
+    "password" : "secret"
+}
+
 ###
 
-GET http://localhost:8000/uploads/1db953fac9d70979dc7dcb025be31d33.png
-
-###

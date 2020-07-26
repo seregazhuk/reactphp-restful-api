@@ -1,5 +1,7 @@
 <?php
 
+use App\Authentication\SignUpController;
+use App\Authentication\Storage as Users;
 use App\Core\ErrorHandler;
 use App\Core\JsonRequestDecoder;
 use App\Core\Router;
@@ -58,6 +60,9 @@ $routes->get('/orders', new GetAllOrders($orders));
 $routes->post('/orders', new Controller($orders, $products));
 $routes->get('/orders/{id:\d+}', new GetOrderById($orders));
 $routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
+
+$users = new Users($connection);
+$routes->post('/auth/signup', new SignUpController($users));
 
 $server = new Server($loop, new ErrorHandler(), new JsonRequestDecoder(), new Router($routes));
 
