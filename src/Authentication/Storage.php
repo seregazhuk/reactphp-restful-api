@@ -1,16 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Authentication;
 
 use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
 use React\Promise\PromiseInterface;
+
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
 final class Storage
 {
-    private $connection;
+    private ConnectionInterface $connection;
 
     public function __construct(ConnectionInterface $connection)
     {
@@ -23,7 +26,10 @@ final class Storage
             ->then(
                 function () use ($email, $password) {
                     $this->connection
-                        ->query('INSERT INTO users (email, password) VALUES (?, ?)', [$email, $password]);
+                        ->query(
+                            'INSERT INTO users (email, password) VALUES (?, ?)',
+                            [$email, $password]
+                        );
                 }
             );
     }

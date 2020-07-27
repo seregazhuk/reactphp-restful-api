@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Orders\Controller;
 
@@ -12,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class GetAllOrders
 {
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -38,8 +40,11 @@ final class GetAllOrders
 
     private function mapOrders(Order ...$orders): array
     {
-        return array_map(function (Order $order) {
-            return Output::fromEntity($order, Request::detailedOrder($order->id));
-        }, $orders);
+        return array_map(
+            function (Order $order) {
+                return Output::fromEntity($order, Request::detailedOrder($order->id));
+            },
+            $orders
+        );
     }
 }

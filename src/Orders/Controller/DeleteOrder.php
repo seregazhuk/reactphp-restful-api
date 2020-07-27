@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Orders\Controller;
 
@@ -11,10 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class DeleteOrder
 {
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {

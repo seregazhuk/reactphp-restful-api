@@ -6,19 +6,11 @@ final class Request
 {
     private const URI = 'http://localhost:8000/products/';
 
-    /**
-     * @var string
-     */
-    public $type;
+    public string $type;
 
-    /**
-     * @var string
-     */
-    public $url;
-    /**
-     * @var array|null
-     */
-    public $body;
+    public string $url;
+
+    public ?array $body;
 
     public function __construct(string $type, string $url, array $body = null)
     {

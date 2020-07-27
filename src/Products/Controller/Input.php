@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products\Controller;
 
@@ -10,7 +12,7 @@ use Respect\Validation\Validator;
 final class Input
 {
     private const SUPPORTED_FILE_TYPES = ['image/jpg', 'image/png'];
-    private $request;
+    private ServerRequestInterface $request;
 
     public function __construct(ServerRequestInterface $request)
     {
@@ -41,8 +43,21 @@ final class Input
 
     private function validateFields(): void
     {
-        $nameValidator = Validator::key('name', Validator::allOf(Validator::notBlank(), Validator::stringType()))->setName('name');
-        $priceValidator = Validator::key('price', Validator::allOf(Validator::numeric(), Validator::positive(), Validator::notBlank()))->setName('price');
+        $nameValidator = Validator::key(
+            'name',
+            Validator::allOf(
+                Validator::notBlank(),
+                Validator::stringType()
+            )
+        )->setName('name');
+        $priceValidator = Validator::key(
+            'price',
+            Validator::allOf(
+                Validator::numeric(),
+                Validator::positive(),
+                Validator::notBlank()
+            )
+        )->setName('price');
 
         Validator::allOf($nameValidator, $priceValidator)->assert($this->request->getParsedBody());
     }

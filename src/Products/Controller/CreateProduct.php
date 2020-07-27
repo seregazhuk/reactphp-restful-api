@@ -15,11 +15,9 @@ use function React\Promise\resolve;
 
 final class CreateProduct
 {
-    private $storage;
-    /**
-     * @var Uploader
-     */
-    private $uploader;
+    private Storage $storage;
+
+    private Uploader $uploader;
 
     public function __construct(Storage $storage, Uploader $uploader)
     {

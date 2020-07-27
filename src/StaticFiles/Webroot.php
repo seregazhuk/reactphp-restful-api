@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\StaticFiles;
 
@@ -9,9 +11,9 @@ use React\Promise\PromiseInterface;
 
 final class Webroot
 {
-    private $filesystem;
+    private FilesystemInterface $filesystem;
 
-    private $projectRoot;
+    private string $projectRoot;
 
     public function __construct(FilesystemInterface $filesystem, string $projectRoot)
     {
@@ -38,9 +40,11 @@ final class Webroot
     private function readFile(FileInterface $file): PromiseInterface
     {
         return $file->getContents()
-            ->then(function ($contents) use ($file) {
-                $mimeType = MimeTypeFileExtensionGuesser::guess($file->getPath());
-                return new File($contents, $mimeType);
-            });
+            ->then(
+                function ($contents) use ($file) {
+                    $mimeType = MimeTypeFileExtensionGuesser::guess($file->getPath());
+                    return new File($contents, $mimeType);
+                }
+            );
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products\Controller;
 
@@ -11,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class UpdateProduct
 {
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -24,17 +26,23 @@ final class UpdateProduct
         $input->validate();
 
         return $this->storage->update((int)$id, $input->name(), $input->price())
-            ->then(function () use ($id) {
-                $response = [
-                    'request' => Request::detailedProduct((int)$id)
-                ];
-                return JsonResponse::ok($response);
-            })
-            ->otherwise(function (ProductNotFound $error) {
-                return JsonResponse::notFound();
-            })
-            ->otherwise(function (Exception $error) {
-                return JsonResponse::internalServerError($error->getMessage());
-            });
-        }
+            ->then(
+                function () use ($id) {
+                    $response = [
+                        'request' => Request::detailedProduct((int)$id),
+                    ];
+                    return JsonResponse::ok($response);
+                }
+            )
+            ->otherwise(
+                function (ProductNotFound $error) {
+                    return JsonResponse::notFound();
+                }
+            )
+            ->otherwise(
+                function (Exception $error) {
+                    return JsonResponse::internalServerError($error->getMessage());
+                }
+            );
+    }
 }

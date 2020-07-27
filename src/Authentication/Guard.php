@@ -4,10 +4,7 @@ namespace App\Authentication;
 
 final class Guard
 {
-    /**
-     * @var string
-     */
-    private $jwtKey;
+    private string $jwtKey;
 
     public function __construct(string $jwtKey)
     {

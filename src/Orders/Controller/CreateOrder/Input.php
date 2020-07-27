@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Orders\Controller\CreateOrder;
 
@@ -7,7 +9,7 @@ use Respect\Validation\Validator;
 
 final class Input
 {
-    private $request;
+    private ServerRequestInterface $request;
 
     public function __construct(ServerRequestInterface $request)
     {

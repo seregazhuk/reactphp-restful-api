@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products\Controller\Output;
 
@@ -6,32 +8,23 @@ use App\Products\Product as ProductEntity;
 
 final class Product
 {
-    /**
-     * @var int
-     */
-    public $id;
+    public int $id;
 
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var float
-     */
-    public $price;
+    public float $price;
 
-    /**
-     * @var string|null
-     */
-    public $image;
-    /**
-     * @var Request
-     */
-    public $request;
+    public ?string $image;
 
-    private function __construct(int $id, string $name, float $price, ?string $image, Request $request)
-    {
+    public Request $request;
+
+    private function __construct(
+        int $id,
+        string $name,
+        float $price,
+        ?string $image,
+        Request $request
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;

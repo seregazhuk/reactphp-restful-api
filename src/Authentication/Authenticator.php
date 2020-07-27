@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Authentication;
 
@@ -9,14 +11,9 @@ final class Authenticator
 {
     private const TOKEN_EXPIRES_IN = 60 * 60; // 1 hour
 
-    /**
-     * @var Storage
-     */
-    private $storage;
-    /**
-     * @var string
-     */
-    private $jwtKey;
+    private Storage $storage;
+
+    private string $jwtKey;
 
     public function __construct(Storage $storage, string $jwtKey)
     {

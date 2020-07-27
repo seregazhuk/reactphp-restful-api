@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products\Controller;
 
@@ -11,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class DeleteProduct
 {
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -21,17 +23,23 @@ final class DeleteProduct
     public function __invoke(ServerRequestInterface $request, string $id)
     {
         return $this->storage->delete((int)$id)
-            ->then(function () {
-                $response = [
-                    'request' => Request::createProduct(),
-                ];
-                return JsonResponse::ok($response);
-            })
-            ->otherwise(function (ProductNotFound $error) {
-                return JsonResponse::notFound();
-            })
-            ->otherwise(function (Exception $error) {
-                return JsonResponse::internalServerError($error->getMessage());
-            });
+            ->then(
+                function () {
+                    $response = [
+                        'request' => Request::createProduct(),
+                    ];
+                    return JsonResponse::ok($response);
+                }
+            )
+            ->otherwise(
+                function (ProductNotFound $error) {
+                    return JsonResponse::notFound();
+                }
+            )
+            ->otherwise(
+                function (Exception $error) {
+                    return JsonResponse::internalServerError($error->getMessage());
+                }
+            );
     }
 }

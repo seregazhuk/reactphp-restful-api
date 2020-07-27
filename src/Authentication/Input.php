@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Authentication;
 
@@ -7,7 +9,7 @@ use Respect\Validation\Validator;
 
 final class Input
 {
-    private $request;
+    private ServerRequestInterface $request;
 
     public function __construct(ServerRequestInterface $request)
     {
@@ -16,7 +18,7 @@ final class Input
 
     public function validate(): void
     {
-        $emailValidator =  Validator::key(
+        $emailValidator = Validator::key(
             'email',
             Validator::allOf(
                 Validator::email(),
@@ -25,14 +27,14 @@ final class Input
             )
         )->setName('email');
 
-        $password =  Validator::key(
+        $password = Validator::key(
             'password',
 
 
             Validator::allOf(
                 Validator::notBlank(),
                 Validator::stringType(),
-                )
+            )
         )->setName('password');
 
         Validator::allOf($emailValidator, $password)->assert($this->request->getParsedBody());

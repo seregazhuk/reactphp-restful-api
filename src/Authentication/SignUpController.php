@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class SignUpController
 {
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {

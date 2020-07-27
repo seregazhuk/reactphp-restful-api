@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products\Controller;
 
@@ -12,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class GetAllProducts
 {
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -26,7 +28,7 @@ final class GetAllProducts
                 function (array $products) {
                     $response = [
                         'products' => $this->mapProducts(...$products),
-                        'count' => count($products)
+                        'count' => count($products),
                     ];
                     return JsonResponse::ok($response);
                 },
@@ -40,8 +42,12 @@ final class GetAllProducts
     {
         return array_map(
             function (Product $product) {
-                return ProductResponse::fromEntity($product, Request::detailedProduct($product->id));
-            }, $products
+                return ProductResponse::fromEntity(
+                    $product,
+                    Request::detailedProduct($product->id)
+                );
+            },
+            $products
         );
     }
 }

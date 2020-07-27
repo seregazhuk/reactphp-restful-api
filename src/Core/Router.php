@@ -10,7 +10,7 @@ use React\Http\Message\Response;
 
 final class Router
 {
-    private $dispatcher;
+    private Dispatcher $dispatcher;
 
     public function __construct(RouteCollector $routes)
     {

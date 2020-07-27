@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Orders\Controller\CreateOrder;
 
@@ -15,14 +17,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class Controller
 {
-    /**
-     * @var Orders
-     */
-    private $orders;
-    /**
-     * @var Products
-     */
-    private $products;
+    private Orders $orders;
+
+    private Products $products;
 
     public function __construct(Orders $orders, Products $products)
     {
@@ -47,8 +44,9 @@ final class Controller
                 function (Order $order) {
                     $response = [
                         'order' => Output::fromEntity(
-                            $order, Request::listOrders()
-                        )
+                            $order,
+                            Request::listOrders()
+                        ),
                     ];
                     return JsonResponse::created($response);
                 }
@@ -61,6 +59,7 @@ final class Controller
             ->otherwise(
                 function (Exception $exception) {
                     return JsonResponse::internalServerError($exception->getMessage());
-                });
+                }
+            );
     }
 }

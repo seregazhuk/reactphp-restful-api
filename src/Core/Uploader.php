@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Core;
 
@@ -10,9 +12,9 @@ final class Uploader
 {
     private const UPLOADS_DIR = 'uploads';
 
-    private $filesystem;
+    private FilesystemInterface $filesystem;
 
-    private $projectRoot;
+    private string $projectRoot;
 
     public function __construct(FilesystemInterface $filesystem, string $projectRoot)
     {
@@ -27,21 +29,26 @@ final class Uploader
 
         return $this->filesystem->file($fullPath)
             ->putContents((string)$file->getStream())
-            ->then(function () use ($uploadPath) {
-                return $uploadPath;
-            });
+            ->then(
+                function () use ($uploadPath) {
+                    return $uploadPath;
+                }
+            );
     }
 
     private function makeFilePath(UploadedFileInterface $file): string
     {
         preg_match('/^.*\.(.+)$/', $file->getClientFilename(), $filenameParsed);
 
-        return implode('', [
-            self::UPLOADS_DIR,
-            '/',
-            md5((string)$file->getStream()),
-            '.',
-            $filenameParsed[1]
-        ]);
+        return implode(
+            '',
+            [
+                self::UPLOADS_DIR,
+                '/',
+                md5((string)$file->getStream()),
+                '.',
+                $filenameParsed[1],
+            ]
+        );
     }
 }

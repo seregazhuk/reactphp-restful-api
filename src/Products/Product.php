@@ -1,16 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products;
 
 final class Product
 {
-    public $id;
+    public int $id;
 
-    public $name;
+    public string $name;
 
-    public $price;
+    public float $price;
 
-    public $image;
+    public ?string $image;
 
     public function __construct(int $id, string $name, float $price, ?string $image)
     {

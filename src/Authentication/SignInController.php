@@ -8,10 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class SignInController
 {
-    /**
-     * @var Authenticator
-     */
-    private $authenticator;
+    private Authenticator $authenticator;
 
     public function __construct(Authenticator $authenticator)
     {

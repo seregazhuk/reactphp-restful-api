@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Authentication;
 
@@ -8,10 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class ProtectedRoute
 {
-    /**
-     * @var string
-     */
-    private $jwtKey;
+    private string $jwtKey;
+
     /**
      * @var callable
      */

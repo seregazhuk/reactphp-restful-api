@@ -4,6 +4,7 @@ namespace App\Core;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Exceptions\NestedValidationException;
+use Throwable;
 
 final class ErrorHandler
 {
@@ -13,8 +14,7 @@ final class ErrorHandler
             return $next($request);
         } catch (NestedValidationException $exception) {
             return JsonResponse::badRequest(...$exception->getMessages());
-        } catch (\Throwable $error) {
-            var_dump($error);
+        } catch (Throwable $error) {
             return JsonResponse::internalServerError($error->getMessage());
         }
     }

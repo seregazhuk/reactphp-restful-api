@@ -1,17 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\StaticFiles;
 
 final class File
 {
-    /**
-     * @var string
-     */
-    public $contents;
-    /**
-     * @var string
-     */
-    public $mimeType;
+    public string $contents;
+    public string $mimeType;
 
     public function __construct(string $contents, string $mimeType)
     {

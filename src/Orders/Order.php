@@ -4,18 +4,11 @@ namespace App\Orders;
 
 final class Order
 {
-    /**
-     * @var int
-     */
-    public $id;
-    /**
-     * @var int
-     */
-    public $productId;
-    /**
-     * @var int
-     */
-    public $quantity;
+    public int $id;
+
+    public int $productId;
+
+    public int $quantity;
 
     public function __construct(int $id, int $productId, int $quantity)
     {

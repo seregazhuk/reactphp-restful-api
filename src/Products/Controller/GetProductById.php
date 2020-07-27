@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Products\Controller;
 
@@ -13,12 +15,13 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class GetProductById
 {
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
         $this->storage = $storage;
     }
+
     public function __invoke(ServerRequestInterface $request, string $id)
     {
         return $this->storage
@@ -27,18 +30,23 @@ final class GetProductById
                 function (Product $product) {
                     $response = [
                         'product' => Output::fromEntity(
-                            $product, Request::updateProduct($product->id)
+                            $product,
+                            Request::updateProduct($product->id)
                         ),
-                        'request' => Request::listOfProducts()
+                        'request' => Request::listOfProducts(),
                     ];
                     return JsonResponse::ok($response);
                 }
             )
-            ->otherwise(function (ProductNotFound $error) {
-                return JsonResponse::notFound();
-            })
-            ->otherwise(function (Exception $error) {
-                return JsonResponse::internalServerError($error->getMessage());
-            });
+            ->otherwise(
+                function (ProductNotFound $error) {
+                    return JsonResponse::notFound();
+                }
+            )
+            ->otherwise(
+                function (Exception $error) {
+                    return JsonResponse::internalServerError($error->getMessage());
+                }
+            );
     }
 }

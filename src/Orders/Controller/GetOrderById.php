@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Orders\Controller;
 
@@ -13,10 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class GetOrderById
 {
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -30,7 +29,8 @@ final class GetOrderById
                 function (Order $order) {
                     $response = [
                         'order' => Output::fromEntity(
-                            $order, Request::deleteOrder($order->id)
+                            $order,
+                            Request::deleteOrder($order->id)
                         ),
                         'request' => Request::listOrders(),
                     ];

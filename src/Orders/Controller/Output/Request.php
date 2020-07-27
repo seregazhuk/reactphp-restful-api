@@ -1,22 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Orders\Controller\Output;
 
 final class Request
 {
     private const URI = 'http://localhost:8000/orders';
-    /**
-     * @var string
-     */
-    public $type;
-    /**
-     * @var string
-     */
-    public $url;
-    /**
-     * @var array
-     */
-    public $body;
+
+    public string $type;
+
+    public string $url;
+
+    public ?array $body;
 
     private function __construct(string $type, string $url, array $body = null)
     {
