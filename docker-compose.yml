@@ -1,0 +1,38 @@
+version: '3.7'
+
+## Volumes
+###############################################################################
+volumes:
+    db_data:
+
+## Services
+###############################################################################
+services:
+    php:
+        build:
+            context: .
+            dockerfile: dev/docker/php/Dockerfile
+        ports:
+            - "8000:8000"
+        restart: on-failure
+        volumes:
+            - ./:/var/www:cached
+        depends_on:
+            - mysql
+        tty: true
+
+    mysql:
+        ports:
+            - '3306:3306'
+        restart: always
+        image: mysql:8.0
+        volumes:
+            - db_data:/var/lib/mysql
+        cap_add:
+            - SYS_NICE
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASS}
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASS}

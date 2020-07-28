@@ -70,7 +70,7 @@ $routes->post('/auth/signin', new SignInController($authenticator));
 
 $server = new Server($loop, new ErrorHandler(), new JsonRequestDecoder(), new Router($routes));
 
-$socket = new \React\Socket\Server('127.0.0.1:8000', $loop);
+$socket = new \React\Socket\Server('0.0.0.0:8000', $loop);
 $server->listen($socket);
 
 $server->on(
