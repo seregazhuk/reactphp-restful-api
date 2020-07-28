@@ -26,7 +26,7 @@ final class ErrorHandler
                     }
                 );
         } catch (NestedValidationException $exception) {
-            return JsonResponse::badRequest(...$exception->getMessages());
+            return JsonResponse::badRequest(array_values($exception->getMessages()));
         } catch (Throwable $error) {
             return $this->handleThrowable($error);
         }
