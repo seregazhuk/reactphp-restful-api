@@ -31,9 +31,6 @@ final class GetAllProducts
                         'count' => count($products),
                     ];
                     return JsonResponse::ok($response);
-                },
-                function (Exception $error) {
-                    return JsonResponse::internalServerError($error->getMessage());
                 }
             );
     }

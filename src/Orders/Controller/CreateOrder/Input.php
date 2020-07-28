@@ -22,7 +22,7 @@ final class Input
             'productId',
             Validator::allOf(
                 Validator::notBlank(),
-                Validator::numeric(),
+                Validator::number(),
                 Validator::positive()
             )
         )->setName('productId');
@@ -31,7 +31,7 @@ final class Input
             'quantity',
             Validator::allOf(
                 Validator::notBlank(),
-                Validator::numeric(),
+                Validator::number(),
                 Validator::positive()
             )
         )->setName('quantity');

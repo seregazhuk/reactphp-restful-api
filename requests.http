@@ -3,6 +3,7 @@ GET http://localhost:8000/products
 
 ### Create a new product
 POST http://localhost:8000/products
+Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=RestApiBoundary
 
 --RestApiBoundary
@@ -26,6 +27,7 @@ GET http://localhost:8000/products/42
 ### Update product by id
 PUT http://localhost:8000/products/9
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "name": "MacBook Pro",
@@ -34,14 +36,17 @@ Content-Type: application/json
 
 ### Delete product by id
 DELETE http://localhost:8000/products/1
+Authorization: Bearer {{token}}
 
 ### Get all orders
 GET http://localhost:8000/orders
+Authorization: Bearer {{token}}
 Authorization: Bearer {{token}}
 
 ### Create a new order
 POST http://localhost:8000/orders
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
     "productId": 2,
@@ -50,10 +55,11 @@ Content-Type: application/json
 
 ### Get order by id
 GET http://localhost:8000/orders/1
-
+Authorization: Bearer {{token}}
 
 ### Delete order by id
 DELETE http://localhost:8000/orders/1
+Authorization: Bearer {{token}}
 
 ### Create a new user
 POST http://localhost:8000/auth/signup

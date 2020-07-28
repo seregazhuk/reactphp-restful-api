@@ -41,11 +41,6 @@ final class GetOrderById
                 function (OrderNotFound $error) {
                     return JsonResponse::notFound();
                 }
-            )
-            ->otherwise(
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
-                }
             );
     }
 }

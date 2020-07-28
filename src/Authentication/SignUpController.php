@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace App\Authentication;
 
@@ -14,14 +15,14 @@ final class SignUpController
     {
         $this->storage = $storage;
     }
-    
+
     public function __invoke(ServerRequestInterface $request)
     {
         $input = new Input($request);
         $input->validate();
-        
+
         return $this->storage
-           ->create($input->email() ,$input->hashedPassword())
+            ->create($input->email(), $input->hashedPassword())
             ->then(
                 function () {
                     return JsonResponse::created([]);
@@ -29,12 +30,7 @@ final class SignUpController
             )
             ->otherwise(
                 function (UserAlreadyExists $exception) {
-                    return JsonResponse::badRequest('Email is already taken.');
-                }
-            )
-            ->otherwise(
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
+                    return JsonResponse::badRequest(['email' => 'Email is already taken.']);
                 }
             );
     }

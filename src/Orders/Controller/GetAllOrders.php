@@ -31,9 +31,6 @@ final class GetAllOrders
                         'count' => count($orders),
                     ];
                     return JsonResponse::ok($response);
-                },
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
                 }
             );
     }

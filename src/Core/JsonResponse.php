@@ -10,7 +10,7 @@ final class JsonResponse
 {
     private static function response(int $statusCode, $data = null): Response
     {
-        $body = $data ? json_encode($data) : null;
+        $body = $data ? json_encode($data) : '';
 
         return new Response($statusCode, ['Content-Type' => 'application/json'], $body);
     }
@@ -35,7 +35,7 @@ final class JsonResponse
         return self::response(204);
     }
 
-    public static function badRequest(string ...$errors): Response
+    public static function badRequest(array $errors): Response
     {
         return self::response(400, ['errors' => $errors]);
     }
@@ -45,8 +45,8 @@ final class JsonResponse
         return self::response(201, $data);
     }
 
-    public static function unauthorized(): self
+    public static function unauthorized(): Response
     {
-        return new self(401);
+        return self::response(401);
     }
 }

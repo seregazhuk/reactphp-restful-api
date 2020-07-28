@@ -6,12 +6,10 @@ namespace App\Products\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
-use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
 
 final class Input
 {
-    private const SUPPORTED_FILE_TYPES = ['image/jpg', 'image/png'];
     private ServerRequestInterface $request;
 
     public function __construct(ServerRequestInterface $request)
@@ -50,16 +48,20 @@ final class Input
                 Validator::stringType()
             )
         )->setName('name');
+
         $priceValidator = Validator::key(
             'price',
             Validator::allOf(
-                Validator::numeric(),
+                Validator::number(),
                 Validator::positive(),
                 Validator::notBlank()
             )
         )->setName('price');
 
-        Validator::allOf($nameValidator, $priceValidator)->assert($this->request->getParsedBody());
+        Validator::allOf($nameValidator, $priceValidator)
+            ->assert(
+                $this->request->getParsedBody()
+            );
     }
 
     private function validateUploadedFile(): void
@@ -68,10 +70,11 @@ final class Input
             return;
         }
 
-        if (!in_array($this->image()->getClientMediaType(), self::SUPPORTED_FILE_TYPES, true)) {
-            throw new NestedValidationException(
-                'image has invalid extension. Select jpg or png file.'
-            );
-        }
+        $imageValidator = Validator::anyOf(
+            Validator::mimetype('image/jpg'),
+            Validator::mimetype('image/png'),
+        )->setName('image');
+
+        $imageValidator->assert($this->image()->getClientFilename());
     }
 }

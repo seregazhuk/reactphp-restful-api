@@ -38,11 +38,6 @@ final class UpdateProduct
                 function (ProductNotFound $error) {
                     return JsonResponse::notFound();
                 }
-            )
-            ->otherwise(
-                function (Exception $error) {
-                    return JsonResponse::internalServerError($error->getMessage());
-                }
             );
     }
 }

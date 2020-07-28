@@ -53,12 +53,7 @@ final class Controller
             )
             ->otherwise(
                 function (ProductNotFound $error) {
-                    return JsonResponse::badRequest('Product not found.');
-                }
-            )
-            ->otherwise(
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
+                    return JsonResponse::badRequest(['productId' => 'Product not found.']);
                 }
             );
     }

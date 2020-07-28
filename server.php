@@ -36,10 +36,10 @@ $env = Dotenv::createImmutable(__DIR__);
 $env->load();
 
 $factory = new \React\MySQL\Factory($loop);
-$uri = getenv('DB_LOGIN')
-    . ':' . getenv('DB_PASS')
-    . '@' . getenv('DB_HOST')
-    . '/' . getenv('DB_NAME');
+$uri = $_ENV['DB_USER']
+    . ':' . $_ENV['DB_PASS']
+    . '@' . $_ENV['DB_HOST']
+    . '/' . $_ENV['DB_NAME'];
 $connection = $factory->createLazyConnection($uri);
 
 $filesystem = Filesystem::create($loop);
@@ -48,7 +48,7 @@ $uploader = new Uploader($filesystem, __DIR__);
 $products = new Products($connection);
 $orders = new Orders($connection);
 
-$guard = new \App\Authentication\Guard(getenv('JWT_KEY'));
+$guard = new \App\Authentication\Guard($_ENV['JWT_KEY']);
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 $routes->get('/products', new GetAllProducts($products));
 $routes->post('/products', $guard->protect(new CreateProduct($products, $uploader)));
@@ -64,7 +64,7 @@ $routes->get('/orders/{id:\d+}', $guard->protect(new GetOrderById($orders)));
 $routes->delete('/orders/{id:\d+}', $guard->protect(new DeleteOrder($orders)));
 
 $users = new Users($connection);
-$authenticator = new \App\Authentication\Authenticator($users, getenv('JWT_KEY'));
+$authenticator = new \App\Authentication\Authenticator($users, $_ENV['JWT_KEY']);
 $routes->post('/auth/signup', new SignUpController($users));
 $routes->post('/auth/signin', new SignInController($authenticator));
 

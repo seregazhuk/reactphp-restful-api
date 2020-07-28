@@ -35,11 +35,6 @@ final class SignInController
                 function (UserNotFound $exception) {
                     return JsonResponse::unauthorized();
                 }
-            )
-            ->otherwise(
-                function (Exception $exception) {
-                    return JsonResponse::internalServerError($exception->getMessage());
-                }
             );
     }
 }
