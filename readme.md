@@ -1,11 +1,27 @@
-Code examples for [Creating a RESTful API with ReactPHP](https://www.youtube.com/watch?v=aR3e9pj9TIo&list=PLKIEFFgNQYpWeEvjglhMKUsM1xxKAwgcs):
+# Code examples for [Building RESTful API With ReactPHP](https://leanpub.com/building-restful-api-with-reactphp) Book.
 
-- [What is a RESTful API?](https://youtu.be/aR3e9pj9TIo)
-- [Plans and First Steps ](https://youtu.be/7HJFZ25XiQs)
-- [Adding Routes](https://youtu.be/vUZ98oHwzco)
-- [Refactoring to Controllers](https://youtu.be/xJbFS7NBF14)
-- [Dummy Endpoints](https://youtu.be/9LILEZqdtkA)
-- [Workflow Improvements](https://youtu.be/fl7gcLRhPTY)
-- [Parsing Request Body](https://youtu.be/lio47OF27EQ)
-- [Adding Database](https://youtu.be/yjsLaCTefzY)
-- [Managing Products](https://youtu.be/HsHIgkItiGI)
+### Quick start
+
+1. Run docker-compose: 
+
+```bash
+docker-compose up
+```
+
+2. Install Composer dependencies:
+
+```bash
+docker-compose exec php composer install
+```
+
+3. Execute migrations:
+
+```bash
+docker-compose exec php ./vendor/bin/doctrine-migrations migrate
+```
+
+4. Use [requests.http](dev/requests.http) to send requests.
+
+For requests that require authentication you need to register a new user first. 
+Send `POST http://localhost:8000/auth/signup` to create a new user. Then send
+`POST http://localhost:8000/auth/signin` to log in with this new user.
