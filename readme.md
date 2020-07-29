@@ -1,5 +1,7 @@
 # Code examples for [Building RESTful API With ReactPHP](https://leanpub.com/building-restful-api-with-reactphp) Book.
 
+This repo contains the final code of the project that we build through the book.
+
 ### Quick start
 
 1. Run docker-compose: 
