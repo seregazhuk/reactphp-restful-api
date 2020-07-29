@@ -23,5 +23,5 @@ docker-compose exec php ./vendor/bin/doctrine-migrations migrate
 4. Use [requests.http](dev/requests.http) to send requests.
 
 For requests that require authentication you need to register a new user first. 
-Send `POST http://localhost:8000/auth/signup` to create a new user. Then send
-`POST http://localhost:8000/auth/signin` to log in with this new user.
+1. Send `POST http://localhost:8000/auth/signup` to create a new user. 
+2. Then send`POST http://localhost:8000/auth/signin` to log in with this new user.
