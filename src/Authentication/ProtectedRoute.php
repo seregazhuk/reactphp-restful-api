@@ -23,10 +23,14 @@ final class ProtectedRoute
         $this->middleware = $middleware;
     }
 
-    public function __invoke(ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request, string $id = null)
     {
         if ($this->authorize($request)) {
-            return call_user_func($this->middleware, $request);
+            if(!$id) {
+                return call_user_func($this->middleware, $request);
+            } else {
+                return call_user_func($this->middleware, $request, $id);
+            }
         }
 
         return JsonResponse::unauthorized();
